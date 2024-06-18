@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:sizer/sizer.dart';
+import 'package:weather_app/ui/screens/profile_screen.dart';
 import 'package:weather_app/ui/state_notifiers/api_key_state_notifier.dart'
     as a;
 import 'package:weather_app/ui/state_notifiers/city_state_notifier.dart' as c;
@@ -18,7 +19,6 @@ import '../utilities/constants.dart';
 import '../utilities/hooks.dart';
 import '../utilities/snack_bars.dart';
 import '../widgets/others/failure_banner.dart';
-import '../widgets/others/overflow_menu_button.dart';
 import '../widgets/weather/additional_info_widget.dart';
 import '../widgets/weather/daily_forecasts_widget.dart';
 import '../widgets/weather/hourly_forecasts_widget.dart';
@@ -102,7 +102,6 @@ class WeatherScreen extends HookConsumerWidget {
       body: FloatingSearchAppBar(
         liftOnScrollElevation: 0.0,
         elevation: fullWeather == null ? 2.0 : 0.0,
-        //systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle,
         automaticallyImplyBackButton: false,
         controller: controller,
         progress: fullWeatherState is w.Loading || cityState is c.Loading,
@@ -121,8 +120,6 @@ class WeatherScreen extends HookConsumerWidget {
           }
         },
         title: fullWeather == null
-            // If we use `null` here, it would show the hint. We want it to
-            // show nothing.
             ? const SizedBox.shrink()
             : Row(
                 children: [
@@ -141,10 +138,8 @@ class WeatherScreen extends HookConsumerWidget {
                       switch (unitSystem) {
                         case UnitSystem.metric:
                           return '°C';
-
                         case UnitSystem.imperial:
                           return '°F';
-
                         case null:
                           return '';
                       }
@@ -180,11 +175,25 @@ class WeatherScreen extends HookConsumerWidget {
               },
             ),
           ),
-          FloatingSearchBarAction(child: OverflowMenuButton()),
+          FloatingSearchBarAction(
+            child: CircularButton(
+              icon: Icon(
+                Icons.person,
+                color: Theme.of(context).appBarTheme.iconTheme!.color,
+              ),
+              tooltip: 'Profile',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+            ),
+          ),
           FloatingSearchBarAction.searchToClear(
             color: Theme.of(context).appBarTheme.iconTheme!.color,
             showIfClosed: false,
-          )
+          ),
         ],
         body: SafeArea(
           child: RefreshIndicator(
