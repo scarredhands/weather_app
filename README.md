@@ -1,4 +1,4 @@
-# weather_app
+# weather_app. Just type the city name and you'll get it's weather report
 
 A new Flutter project.
 
