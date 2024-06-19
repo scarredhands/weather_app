@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:sizer/sizer.dart';
 import 'package:weather_app/ui/screens/profile_screen.dart';
+import 'package:weather_app/ui/screens/settings_screen.dart';
 import 'package:weather_app/ui/state_notifiers/api_key_state_notifier.dart'
     as a;
 import 'package:weather_app/ui/state_notifiers/city_state_notifier.dart' as c;
@@ -172,6 +173,21 @@ class WeatherScreen extends HookConsumerWidget {
               tooltip: 'Search',
               onPressed: () {
                 controller.open();
+              },
+            ),
+          ),
+          FloatingSearchBarAction(
+            child: CircularButton(
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).appBarTheme.iconTheme!.color,
+              ),
+              tooltip: 'Settings',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()),
+                );
               },
             ),
           ),
